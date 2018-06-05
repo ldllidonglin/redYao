@@ -1,25 +1,33 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Detail from '@/components/Detail'
-import Homepage from '@/components/Homepage'
-import Details from '@/components/Details'
 
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
   routes: [
     {
-      path: '/',
-      name: 'Homepage',
-      component: Homepage
-    }, {
       path: '/details',
       name: 'Details',
-      component: Details
+      component: () => import('@/components/Details')
     }, {
       path: '/detail',
       name: 'Detail',
-      component: Detail
+      component: () => import('@/components/Detail')
+    }, {
+      path: '/teacher',
+      name: 'Teacher',
+      component: () => import('@/components/Teacher')
     }
   ]
 })
+
+router.beforeEach((to, _, next) => {
+  if (to.path === '/teacher') {
+    document.title = '师资力量'
+  } else {
+    document.title = 'Hust'
+  }
+  next()
+})
+
+export default router
